@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Note for Puja Vohra — Airtable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --fox-navy:   #003366;
+    --fox-navy-dark: #001f40;
+    --fox-blue-mid: #0a4a8a;
+    --fox-white:  #ffffff;
+    --fox-rule:   rgba(255,255,255,0.12);
+    --at-orange:  #F28B00;
+    --at-orange-l:#ffa733;
+    --paper:      #f4f1eb;
+    --paper-dark: #e8e3d8;
+    --ink:        #1a1a1a;
+    --muted:      #5a5550;
+    --rule-light: #d4cfc6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--fox-navy-dark);
+    color: var(--fox-white);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ═══════════════════════════════
+     TOP NAV BAR
+  ═══════════════════════════════ */
+  .topbar {
+    background: var(--fox-navy-dark);
+    border-bottom: 1px solid var(--fox-rule);
+    padding: 0 48px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .at-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fox-white);
+  }
+
+  .at-mark {
+    width: 26px;
+    height: 26px;
+    background: var(--at-orange);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .topbar-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--fox-rule);
+  }
+
+  .topbar-for {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-weight: 600;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* ═══════════════════════════════
+     PERSONAL BANNER
+  ═══════════════════════════════ */
+  .personal-banner {
+    background: linear-gradient(135deg, var(--fox-navy) 0%, var(--fox-blue-mid) 100%);
+    border-bottom: 3px solid var(--at-orange);
+    padding: 40px 48px 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 32px;
+    animation: fadeDown 0.7s ease 0.1s both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .banner-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--at-orange);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .banner-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--fox-white);
+  }
+
+  .banner-headline strong {
+    font-weight: 700;
+    color: var(--fox-white);
+  }
+
+  .banner-headline em {
+    font-style: italic;
+    color: var(--at-orange);
+  }
+
+  .banner-sub {
+    margin-top: 14px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    max-width: 580px;
+    line-height: 1.65;
+  }
+
+  .banner-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .bstat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--at-orange);
+    line-height: 1;
+    text-align: right;
+  }
+
+  .bstat-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    text-align: right;
+    margin-top: 2px;
+  }
+
+  /* ═══════════════════════════════
+     PLAYER BAR
+  ═══════════════════════════════ */
+  .player-bar {
+    background: var(--fox-navy);
+    border-bottom: 1px solid var(--fox-rule);
+    padding: 0 48px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    animation: fadeDown 0.7s ease 0.3s both;
+  }
+
+  .player-tag {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--at-orange);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .player-track-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .player-sep {
+    width: 1px;
+    height: 20px;
+    background: var(--fox-rule);
+    flex-shrink: 0;
+  }
+
+  .play-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--at-orange);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .play-btn:hover { background: var(--at-orange-l); transform: scale(1.06); }
+
+  .player-progress-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .player-time {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    min-width: 0;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--at-orange);
+    border-radius: 2px;
+    width: 0%;
+    pointer-events: none;
+  }
+
+  .waveform {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .wb {
+    width: 2px;
+    background: rgba(242,139,0,0.6);
+    border-radius: 1px;
+    animation: wpulse 1.2s ease-in-out infinite;
+  }
+
+  .wb:nth-child(1){height:6px;  animation-delay:0s}
+  .wb:nth-child(2){height:16px; animation-delay:.1s}
+  .wb:nth-child(3){height:10px; animation-delay:.2s}
+  .wb:nth-child(4){height:20px; animation-delay:.05s}
+  .wb:nth-child(5){height:12px; animation-delay:.15s}
+  .wb:nth-child(6){height:18px; animation-delay:.25s}
+  .wb:nth-child(7){height:8px;  animation-delay:.1s}
+  .wb:nth-child(8){height:14px; animation-delay:.3s}
+
+  .waveform.paused .wb { animation-play-state: paused; opacity: 0.3; }
+
+  @keyframes wpulse {
+    0%,100%{ transform:scaleY(1);   opacity:.5 }
+    50%    { transform:scaleY(.3);  opacity:1  }
+  }
+
+  .autoplay-note {
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════
+     ONE PAGER WRAPPER
+  ═══════════════════════════════ */
+  .onepager-wrap {
+    background: var(--fox-navy-dark);
+    padding: 48px;
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--at-orange);
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--fox-rule);
+    max-width: 200px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ═══════════════════════════════
+     ONE PAGER DOCUMENT
+  ═══════════════════════════════ */
+  .onepager {
+    background: var(--paper);
+    color: var(--ink);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 72px;
+    border-radius: 2px;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.06),
+      0 40px 100px rgba(0,0,0,0.6),
+      0 8px 24px rgba(0,0,0,0.3);
+    position: relative;
+    animation: fadeUp 0.9s ease 0.6s both;
+  }
+
+  .onepager::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--fox-navy) 0%, var(--at-orange) 100%);
+    border-radius: 2px 2px 0 0;
+  }
+
+  .op-logo-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 36px;
+  }
+
+  .op-logo-mark {
+    width: 30px;
+    height: 30px;
+    background: var(--at-orange);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 9px;
+    flex-shrink: 0;
+  }
+
+  .op-logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .op-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--fox-navy);
+    margin-bottom: 6px;
+  }
+
+  .op-rule {
+    border: none;
+    border-top: 2px solid var(--at-orange);
+    margin: 22px 0;
+    opacity: 0.5;
+  }
+
+  .op-section-head {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--at-orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+
+  .op-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    line-height: 1.75;
+    color: #2a2520;
+  }
+
+  .op-3col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: #d0c8bc;
+    border: 1px solid #d0c8bc;
+    border-radius: 2px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+
+  .op-3col-cell {
+    background: var(--paper-dark);
+    padding: 18px 16px;
+  }
+
+  .op-3col-head {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--at-orange);
+    margin-bottom: 8px;
+  }
+
+  .op-3col-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #3a3530;
+  }
+
+  .op-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+  }
+
+  .op-table thead tr {
+    background: var(--fox-navy);
+    color: white;
+  }
+
+  .op-table th {
+    padding: 11px 14px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .op-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #ddd8cc;
+    line-height: 1.5;
+    color: #2a2520;
+  }
+
+  .op-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+
+  .op-callout {
+    background: var(--fox-navy);
+    color: white;
+    padding: 18px 22px;
+    border-radius: 2px;
+    margin: 24px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .op-callout strong { color: var(--at-orange); }
+
+  .op-phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .op-phase {
+    border: 1px solid #d0c8bc;
+    border-radius: 2px;
+    padding: 18px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .op-phase-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: rgba(0,51,102,0.09);
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .op-phase-head {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fox-navy);
+    margin-bottom: 8px;
+  }
+
+  .op-phase-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #3a3530;
+  }
+
+  .op-qs {
+    list-style: none;
+    margin: 12px 0;
+  }
+
+  .op-qs li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #2a2520;
+    padding: 9px 0 9px 22px;
+    border-bottom: 1px solid #e8e2d8;
+    position: relative;
+  }
+
+  .op-qs li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--at-orange);
+  }
+
+  .op-footer {
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid #d0c8bc;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .op-footer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .op-footer-contact {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .op-footer-brand {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--at-orange);
+    font-weight: 700;
+    align-self: flex-end;
+  }
+
+  /* ═══════════════════════════════
+     SITE FOOTER
+  ═══════════════════════════════ */
+  .site-footer {
+    background: var(--fox-navy-dark);
+    border-top: 1px solid var(--fox-rule);
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .site-footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.04em;
+  }
+
+  .site-footer-right a {
+    font-size: 11px;
+    color: var(--at-orange);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  /* ═══════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════ */
+  @media (max-width: 768px) {
+    .topbar, .player-bar, .personal-banner, .onepager-wrap, .site-footer {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .personal-banner { grid-template-columns: 1fr; }
+    .banner-stats { flex-direction: row; align-items: flex-start; }
+    .onepager { padding: 28px 20px; }
+    .op-3col, .op-phases { grid-template-columns: 1fr; }
+    .player-track-name { display: none; }
+    .autoplay-note { display: none; }
+    .waveform { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <div class="at-logo">
+      <div class="at-mark">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" rx="1" fill="white"/>
+          <rect x="9" y="1" width="6" height="6" rx="1" fill="white" opacity="0.7"/>
+          <rect x="1" y="9" width="6" height="6" rx="1" fill="white" opacity="0.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+      Airtable
+    </div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-for">For FOX Corporation</div>
+  </div>
+  <div class="topbar-right">
+    <a href="mailto:gregory.furtado@airtable.com" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.05em;">gregory.furtado@airtable.com</a>
+  </div>
+</nav>
+
+<!-- PERSONAL BANNER -->
+<div class="personal-banner">
+  <div>
+    <div class="banner-eyebrow">Prepared exclusively for</div>
+    <h1 class="banner-headline">
+      <strong>Puja Vohra</strong><br/>
+      EVP Brand Marketing, Fox Corporation<br/>
+      <em>One mandate. One platform. Four brands.</em>
+    </h1>
+    <p class="banner-sub">
+      You joined FOX with a blank canvas and a portfolio-wide mandate. This brief outlines how Airtable becomes the operating infrastructure you build it on, and why two of your four brands are already running on it today.
+    </p>
+  </div>
+  <div class="banner-stats">
+    <div>
+      <div class="bstat-num">4</div>
+      <div class="bstat-label">FOX Brands</div>
+    </div>
+    <div>
+      <div class="bstat-num">2</div>
+      <div class="bstat-label">Already on Airtable</div>
+    </div>
+    <div>
+      <div class="bstat-num">1</div>
+      <div class="bstat-label">System of Record Needed</div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER BAR -->
+<div class="player-bar">
+  <div class="player-tag">Now Playing</div>
+  <div class="player-track-name">"Built for What's Next"</div>
+  <div class="player-sep"></div>
+  <button class="play-btn" id="playBtn" aria-label="Play / Pause">
+    <svg id="playIcon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path d="M2 1.5L10.5 6L2 10.5V1.5Z" fill="#0d0d0d"/>
+    </svg>
+    <svg id="pauseIcon" width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none">
+      <rect x="1.5" y="1.5" width="3.5" height="9" rx="1" fill="#0d0d0d"/>
+      <rect x="7" y="1.5" width="3.5" height="9" rx="1" fill="#0d0d0d"/>
+    </svg>
+  </button>
+  <div class="player-progress-wrap">
+    <span class="player-time" id="currentTime">0:00</span>
+    <div class="progress-track" id="progressTrack">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <span class="player-time" id="totalTime">0:00</span>
+  </div>
+  <div class="waveform paused" id="waveform">
+    <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+    <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+    <div class="wb"></div><div class="wb"></div>
+  </div>
+  <div class="autoplay-note" id="autoplayNote">Click play if audio did not start</div>
+</div>
+
+<audio id="audio" preload="auto" src="airtable-for-puja.mp3"></audio>
+
+<!-- ONE PAGER -->
+<div class="onepager-wrap">
+  <div class="section-eyebrow">The Brief</div>
+
+  <div class="onepager">
+
+    <div class="op-logo-row">
+      <div class="op-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" rx="1" fill="white"/>
+          <rect x="9" y="1" width="6" height="6" rx="1" fill="white" opacity="0.7"/>
+          <rect x="1" y="9" width="6" height="6" rx="1" fill="white" opacity="0.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+      <span class="op-logo-text">Airtable</span>
+    </div>
+
+    <h2 class="op-title">Building a Unified Marketing Operating Model Across the FOX Portfolio</h2>
+    <hr class="op-rule" />
+
+    <div class="op-section-head">The Situation</div>
+    <p class="op-body">
+      You joined Fox Corporation with a mandate to unify ad sales marketing across FOX Entertainment, FOX News, FOX Sports, and Tubi into a single, coherent portfolio value proposition. This is a newly created role with no inherited playbook and no existing system of record across the four brands.
+    </p>
+
+    <div class="op-3col">
+      <div class="op-3col-cell">
+        <div class="op-3col-head">Your Mandate</div>
+        <div class="op-3col-body">Unify ad sales marketing across all four FOX brands into a single portfolio value proposition for advertisers and the market.</div>
+      </div>
+      <div class="op-3col-cell">
+        <div class="op-3col-head">The Operational Reality</div>
+        <div class="op-3col-body">Four brands. Four separate campaign workflows. No unified system of record. Airtable already runs Tubi and Fox News, the two most digitally mature brands.</div>
+      </div>
+      <div class="op-3col-cell">
+        <div class="op-3col-head">Why This Is Relevant</div>
+        <div class="op-3col-body">You built a new media planning process at Paramount+ across a sprawling IP portfolio. You have solved a version of this before and know what good looks like.</div>
+      </div>
+    </div>
+
+    <div class="op-section-head">You Have Solved a Version of This Before</div>
+    <p class="op-body">
+      At Paramount+, you led marketing across one of the most complex streaming portfolios in the industry: 100+ titles, a 140+ person team, fragmented by channel and brand. You built an entirely new media planning process to optimize paid, owned, and earned resources and a prioritization framework for resource allocation across IP. The parallel to Fox is direct.
+    </p>
+
+    <table class="op-table">
+      <thead>
+        <tr>
+          <th>Paramount+ Challenge</th>
+          <th>Fox Corporation Challenge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>100+ titles, multiple networks (CBS, MTV, Showtime, Nickelodeon)</td>
+          <td>4 iconic brands: FOX News, FOX Sports, FOX Entertainment, Tubi</td>
+        </tr>
+        <tr>
+          <td>NFL, UEFA, March Madness requiring tailored campaign ops</td>
+          <td>NFL, MLB, College Football — same complexity, similar scale</td>
+        </tr>
+        <tr>
+          <td>Engineered new media planning process across paid, owned, and earned</td>
+          <td>No unified planning process exists yet across the Fox portfolio</td>
+        </tr>
+        <tr>
+          <td>Built resource allocation framework across IP</td>
+          <td>Newly created CMO role — blank canvas to build the operating model</td>
+        </tr>
+        <tr>
+          <td>Led 140+ person marketing org across a fragmented portfolio</td>
+          <td>Must unify teams across brands that have never shared a system of record</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="op-callout">
+      The question is: <strong>what infrastructure will you build at Fox to solve it again?</strong>
+    </div>
+
+    <div class="op-section-head">Airtable's Existing Footprint at Fox</div>
+    <p class="op-body">Airtable is already deeply embedded in two of the four brands you now oversee:</p>
+
+    <table class="op-table" style="margin-top:14px">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Current Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tubi</strong></td>
+          <td>Central nervous system for title management, premiere dates, production milestones, delivery, and marketing operations. Deep, broad adoption.</td>
+        </tr>
+        <tr>
+          <td><strong>Fox News</strong></td>
+          <td>Operational backbone for digital editorial production and performance operations, including Fox Weather. Deeply integrated into daily workflows.</td>
+        </tr>
+        <tr>
+          <td><strong>Sports &amp; Entertainment</strong></td>
+          <td>Program management, title management, and more.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="op-section-head">The Opportunity</div>
+    <p class="op-body">
+      Airtable can be the system of record you build the global marketing function on: a single place to plan, execute, and measure campaigns across FOX News, FOX Sports, FOX Entertainment, and Tubi from day one.
+    </p>
+
+    <div class="op-phases">
+      <div class="op-phase">
+        <div class="op-phase-num">1</div>
+        <div class="op-phase-head">Unified Campaign Planning</div>
+        <div class="op-phase-body">Build a shared campaign planning foundation. Establish a common structure for briefs, timelines, and assets across brands so your team stops working in silos from the start.</div>
+      </div>
+      <div class="op-phase">
+        <div class="op-phase-num">2</div>
+        <div class="op-phase-head">Portfolio-Wide Execution</div>
+        <div class="op-phase-body">Every campaign, from a tentpole sports broadcast to a Tubi original launch, runs through one system with full visibility from brief to activation.</div>
+      </div>
+      <div class="op-phase">
+        <div class="op-phase-num">3</div>
+        <div class="op-phase-head">CMO-Level Intelligence</div>
+        <div class="op-phase-body">With all four brands on a single platform, you get a real-time view of what's in market, what's in flight, and what's performing across the entire portfolio, with AI-powered insights and a unified agency coordination layer.</div>
+      </div>
+    </div>
+
+    <div class="op-section-head">Questions Worth Exploring Together</div>
+    <ul class="op-qs">
+      <li>How are you currently getting visibility across campaign status at each of the four brands?</li>
+      <li>Where is content being recreated across brands unnecessarily, especially for portfolio-wide advertiser campaigns?</li>
+      <li>How are campaign learnings and assets being shared, or not, across Sports, Entertainment, News, and Tubi?</li>
+      <li>What does your current agency coordination model look like, and where are the biggest bottlenecks from brief to activation?</li>
+      <li>What's your timeline for standing up a unified marketing operating model, and what tooling decisions are you making now?</li>
+    </ul>
+
+    <div class="op-section-head">We've Done This Before</div>
+    <p class="op-body">
+      <strong>Nike Global Marketing</strong> faced the same challenge: global marketing produced content that regional teams underutilized, the CMO had no unified view across campaigns, and an estimated $75M in annual content waste. Airtable became the global marketing hub, unifying campaign planning and workflows around key data sets. The CMO now has a global view from strategy to execution. Content adoption increased. Teams share learnings across regions.
+    </p>
+
+    <div class="op-footer">
+      <div>
+        <div class="op-footer-name">Greg Furtado</div>
+        <div class="op-footer-contact">Strategic Account Executive, Fox Corp &nbsp;·&nbsp; gregory.furtado@airtable.com &nbsp;·&nbsp; (908) 566-8820</div>
+      </div>
+      <div class="op-footer-brand">Airtable</div>
+    </div>
+  </div>
+</div>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer-left">Prepared for Puja Vohra, EVP Brand Marketing, Fox Corporation &nbsp;·&nbsp; Confidential</div>
+  <div class="site-footer-right">
+    <a href="mailto:gregory.furtado@airtable.com">gregory.furtado@airtable.com</a>
+  </div>
+</footer>
+
+<script>
+  const audio       = document.getElementById('audio');
+  const playBtn     = document.getElementById('playBtn');
+  const playIcon    = document.getElementById('playIcon');
+  const pauseIcon   = document.getElementById('pauseIcon');
+  const progressFill= document.getElementById('progressFill');
+  const progressTrack=document.getElementById('progressTrack');
+  const currentTimeEl=document.getElementById('currentTime');
+  const totalTimeEl = document.getElementById('totalTime');
+  const waveform    = document.getElementById('waveform');
+  const autoplayNote= document.getElementById('autoplayNote');
+
+  function fmt(s) {
+    const m = Math.floor(s/60), sec = Math.floor(s%60);
+    return m + ':' + String(sec).padStart(2,'0');
+  }
+
+  function setPlaying(playing) {
+    playIcon.style.display  = playing ? 'none' : '';
+    pauseIcon.style.display = playing ? ''     : 'none';
+    playing ? waveform.classList.remove('paused') : waveform.classList.add('paused');
+    if (playing) autoplayNote.style.display = 'none';
+  }
+
+  audio.addEventListener('loadedmetadata', () => {
+    totalTimeEl.textContent = fmt(audio.duration);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    currentTimeEl.textContent = fmt(audio.currentTime);
+  });
+
+  audio.addEventListener('ended', () => setPlaying(false));
+
+  playBtn.addEventListener('click', () => {
+    audio.paused ? audio.play().then(()=>setPlaying(true)).catch(()=>{}) : (audio.pause(), setPlaying(false));
+  });
+
+  progressTrack.addEventListener('click', e => {
+    const r = progressTrack.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+  });
+
+  // Autoplay on load (browsers require user gesture but we try; show hint if blocked)
+  window.addEventListener('load', () => {
+    audio.play()
+      .then(() => setPlaying(true))
+      .catch(() => {
+        autoplayNote.textContent = 'Click play to start the song';
+        autoplayNote.style.color = 'rgba(242,139,0,0.7)';
+      });
+  });
+</script>
+</body>
+</html>
